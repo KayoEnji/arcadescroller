@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cnpcg7b0frfvk"]
+[gd_scene load_steps=22 format=3 uid="uid://cnpcg7b0frfvk"]
 
 [ext_resource type="Texture2D" uid="uid://bk8iwe4m527ln" path="res://Assets/Sprites/Player/Idle/Idle-1.png" id="1_1kkwx"]
 [ext_resource type="Script" path="res://Scenes/player.gd" id="1_omk7r"]
@@ -16,6 +16,7 @@
 [ext_resource type="Shader" path="res://Scenes/blobshadow.gdshader" id="14_0v2p5"]
 [ext_resource type="Script" path="res://Scenes/blobshadow.gd" id="14_5ee6o"]
 [ext_resource type="Texture2D" uid="uid://djaopd7v5gsfq" path="res://icon.svg" id="15_55tvg"]
+[ext_resource type="Script" path="res://Scripts/state_machine.gd" id="17_hdhxu"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hybep"]
 animations = [{
@@ -107,3 +108,6 @@ cast_shadow = 0
 mesh = SubResource("BoxMesh_odlh4")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_8xllg")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("17_hdhxu")
