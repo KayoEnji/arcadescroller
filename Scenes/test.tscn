@@ -1,0 +1,103 @@
+[gd_scene load_steps=17 format=3 uid="uid://c46gquraeiuv6"]
+
+[ext_resource type="PackedScene" uid="uid://cnpcg7b0frfvk" path="res://Scenes/Player.tscn" id="1_t2kuu"]
+[ext_resource type="Texture2D" uid="uid://oa1k6y62a656" path="res://BlueSkySkybox.png" id="1_ualmd"]
+[ext_resource type="Texture2D" uid="uid://ccms2412fyntt" path="res://kenney_prototypetextures/PNG/Orange/texture_04.png" id="2_si7bp"]
+[ext_resource type="Texture2D" uid="uid://bg11d7rh6fwyd" path="res://kenney_prototypetextures/Vector/texture_01.svg" id="3_m8dr8"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_kpm3w"]
+panorama = ExtResource("1_ualmd")
+
+[sub_resource type="Sky" id="Sky_tsnbb"]
+sky_material = SubResource("PanoramaSkyMaterial_kpm3w")
+
+[sub_resource type="Environment" id="Environment_lrlti"]
+background_mode = 2
+sky = SubResource("Sky_tsnbb")
+reflected_light_source = 1
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_ehihk"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_e2f41"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vs6mp"]
+albedo_texture = ExtResource("2_si7bp")
+uv1_scale = Vector3(20, 10, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_i7jog"]
+material = SubResource("StandardMaterial3D_vs6mp")
+size = Vector3(50, 1, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5bven"]
+size = Vector3(50, 1, 20)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n2kim"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yg437"]
+size = Vector3(50, 10, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1s7oi"]
+albedo_texture = ExtResource("3_m8dr8")
+uv1_scale = Vector3(50, 10, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_b8ksc"]
+material = SubResource("StandardMaterial3D_1s7oi")
+size = Vector3(50, 10, 1)
+
+[node name="TEST" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00174165)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.523971, 0.851736, 0, -0.851736, 0.523971, 0, 11.4305, 17.5653)
+shadow_enabled = true
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("1_t2kuu")]
+transform = Transform3D(1, 0, 0, 0, 0.619779, 0.784776, 0, -0.784776, 0.619779, 0, 1.32738, 4.5436)
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 0.771991, -0.635633, 0, 0.635633, 0.771991, 1.92287, -1.7961, 3.48751)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_lrlti")
+camera_attributes = SubResource("CameraAttributesPractical_ehihk")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_e2f41")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_i7jog")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_5bven")
+
+[node name="Walls" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -10)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Walls"]
+physics_material_override = SubResource("PhysicsMaterial_n2kim")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/StaticBody3D"]
+shape = SubResource("BoxShape3D_yg437")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/StaticBody3D"]
+mesh = SubResource("BoxMesh_b8ksc")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -25, 0, -4)
+physics_material_override = SubResource("PhysicsMaterial_n2kim")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/StaticBody3D2"]
+shape = SubResource("BoxShape3D_yg437")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/StaticBody3D2"]
+mesh = SubResource("BoxMesh_b8ksc")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 25, 0, -4)
+physics_material_override = SubResource("PhysicsMaterial_n2kim")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/StaticBody3D3"]
+shape = SubResource("BoxShape3D_yg437")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Walls/StaticBody3D3"]
+mesh = SubResource("BoxMesh_b8ksc")
