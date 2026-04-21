@@ -1,0 +1,109 @@
+[gd_scene load_steps=21 format=3 uid="uid://cnpcg7b0frfvk"]
+
+[ext_resource type="Texture2D" uid="uid://bk8iwe4m527ln" path="res://Assets/Sprites/Player/Idle/Idle-1.png" id="1_1kkwx"]
+[ext_resource type="Script" path="res://Scenes/player.gd" id="1_omk7r"]
+[ext_resource type="Texture2D" uid="uid://b2iqg1cpxdq2l" path="res://Assets/Sprites/Player/Idle/Idle-2.png" id="2_nnlxf"]
+[ext_resource type="Texture2D" uid="uid://bqw4chwyg4koe" path="res://Assets/Sprites/Player/Idle/Idle-3.png" id="3_qyn6e"]
+[ext_resource type="Texture2D" uid="uid://bpxgioq33ma4l" path="res://Assets/Sprites/Player/Idle/Idle-4.png" id="4_sxj6q"]
+[ext_resource type="Texture2D" uid="uid://38st5uven7xl" path="res://Assets/Sprites/Player/Idle/Idle-5.png" id="5_nxybl"]
+[ext_resource type="Texture2D" uid="uid://cgeny2vtl0qhf" path="res://Assets/Sprites/Player/Idle/Idle-6.png" id="6_l0oux"]
+[ext_resource type="Texture2D" uid="uid://b6cc55kivkkg5" path="res://Assets/Sprites/Player/Idle/Idle-7.png" id="7_p36xk"]
+[ext_resource type="Texture2D" uid="uid://0c8nwrhhsme3" path="res://Assets/Sprites/Player/Idle/Idle-8.png" id="8_447pc"]
+[ext_resource type="Texture2D" uid="uid://bngcajd6anedo" path="res://Assets/Sprites/Player/Walk/Walk-1.png" id="9_jpvnb"]
+[ext_resource type="Texture2D" uid="uid://0qt266jux47l" path="res://Assets/Sprites/Player/Walk/Walk-2.png" id="10_u72yn"]
+[ext_resource type="Texture2D" uid="uid://bkw4b5jv5cp6d" path="res://Assets/Sprites/Player/Walk/Walk-3.png" id="11_rcmdr"]
+[ext_resource type="Texture2D" uid="uid://cpcqt0c0cgn3g" path="res://Assets/Sprites/Player/Walk/Walk-4.png" id="12_ae0fs"]
+[ext_resource type="Shader" path="res://Scenes/blobshadow.gdshader" id="14_0v2p5"]
+[ext_resource type="Script" path="res://Scenes/blobshadow.gd" id="14_5ee6o"]
+[ext_resource type="Texture2D" uid="uid://djaopd7v5gsfq" path="res://icon.svg" id="15_55tvg"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hybep"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1kkwx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_nnlxf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_qyn6e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_sxj6q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_nxybl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_l0oux")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_p36xk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_447pc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_jpvnb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_u72yn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_rcmdr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_ae0fs")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4d7fq"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_odlh4"]
+size = Vector3(1, 3, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8xllg"]
+render_priority = 0
+shader = ExtResource("14_0v2p5")
+shader_parameter/cube_half_size_y = 10.0
+shader_parameter/fade_start = 1.12
+shader_parameter/fade_end = 1.148
+shader_parameter/texture_scale = Vector2(1, 1)
+shader_parameter/decal_offset = Vector2(0, 0)
+shader_parameter/texture_albedo = ExtResource("15_55tvg")
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+script = ExtResource("1_omk7r")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(-0.144, 0, 0, 0, -0.144, 0, 0, 0, -0.144, 0, 0.424632, 0)
+billboard = 1
+texture_filter = 0
+render_priority = 1
+sprite_frames = SubResource("SpriteFrames_hybep")
+frame = 2
+frame_progress = 0.509663
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_4d7fq")
+
+[node name="SpringArm3D" type="RayCast3D" parent="." node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 0.267238, -0.96363, 0, 0.963631, 0.267238, 0, 0, 0)
+script = ExtResource("14_5ee6o")
+player = NodePath("..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.425015, -0.867861)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_odlh4")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_8xllg")
